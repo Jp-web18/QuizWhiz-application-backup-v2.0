@@ -14,10 +14,9 @@ void make_quiz_menu() {
 
     while (1) {
         system(CLEAR);
-
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("%s                     MAKE A QUIZ MENU\n", COLOR_YELLOW);
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
         printf("%s[1] %sMake a Quiz%s\t\t\t%s[3] %sChange PIN%s\n\n",
             COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
@@ -26,8 +25,8 @@ void make_quiz_menu() {
             COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
             COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
-        printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%sEnter your choice:%s\t\t%s", COLOR_CYAN, COLOR_RESET, BOLD_WHITE);
+        printf("%s----------------------------------------------------------%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%sEnter your choice:%s\t\t", COLOR_CYAN, COLOR_RESET);
 
         if (fgets(input, sizeof(input), stdin)) {
             choice = atoi(input);
@@ -84,9 +83,9 @@ int login_make_quiz() {
     while (attempts < MAX_LOGIN_ATTEMPTS) {
         system(CLEAR);
         // printf("%sMake a quiz%s\n\n%s", COLOR_YELLOW, COLOR_RESET, COLOR_BLUE);
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%s                     MAKE A QUIZ MENU\n", COLOR_YELLOW);
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s                     AUTHENTICATION\n", COLOR_YELLOW);
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
         printf("%sEnter PIN code:%s\t",COLOR_CYAN, COLOR_WHITE);
         if (fgets(entered_pin, MAX_PIN_LENGTH, stdin)) {
@@ -150,8 +149,13 @@ void create_new_quiz() {
     char filename[100], input[100];
     int num_items, duration;
     char encryption_key = 'Q';
-
-    printf("Enter quiz file name:\t\t");
+    
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                     MAKE A QUIZ\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("\n");
+    printf("%sEnter quiz file name:%s\t\t", COLOR_CYAN, COLOR_RESET);
     if (!fgets(filename, sizeof(filename), stdin)) return;
     filename[strcspn(filename, "\n")] = '\0';
 
@@ -173,35 +177,35 @@ void create_new_quiz() {
     FILE *quiz_file = fopen(full_filename, "r");
     if (quiz_file) {
         fclose(quiz_file);
-        printf("Quiz file exists. Overwrite? (y/n):\t");
+        printf("%sQuiz file exists.\n%sOverwrite? (%sy%s/%sn%s):%s\t\t", COLOR_RED, COLOR_CYAN, COLOR_GREEN, COLOR_CYAN, COLOR_RED, COLOR_CYAN, COLOR_RESET);
         char confirm[3];
         if (fgets(confirm, sizeof(confirm), stdin) && (confirm[0] != 'y' && confirm[0] != 'Y')) {
-            printf("Quiz not saved.\n");
+            printf("%sQuiz not saved.%s\n", COLOR_RED, COLOR_RESET);
             return;
         }
     }
 
-    printf("Enter time duration (minutes):\t");
+    printf("%sEnter time duration (minutes):%s\t", COLOR_CYAN, COLOR_RESET);
     if (!fgets(input, sizeof(input), stdin)) return;
     duration = atoi(input);
 
-    printf("Enter number of items:\t\t");
+    printf("%sEnter number of items:%s\t\t", COLOR_CYAN, COLOR_RESET);
     if (!fgets(input, sizeof(input), stdin)) return;
     num_items = atoi(input);
     printf("\n");
 
     if (num_items <= 0) {
-        printf("Invalid number of items.\n");
+        printf("%sInvalid number of items.%s\n", COLOR_RED, COLOR_RESET);
         return;
     }
 
     char correct_answers[num_items]; // Array to store all answers
     for (int i = 0; i < num_items; i++) {
-        printf("Enter answer for item %d:\t", i + 1);
+        printf("%sEnter answer for item %d:%s\t", COLOR_CYAN, i + 1, COLOR_RESET);
         if (!fgets(input, sizeof(input), stdin)) return;
         input[strcspn(input, "\n")] = '\0'; // Remove newline
         if (strlen(input) != 1) {
-            printf("Invalid input. Each answer must be a single character.\n");
+            printf("%sInvalid input. Each answer must be a single character.%s\n", COLOR_RED, COLOR_RESET);
             i--; // Retry the current item
             continue;
         }
@@ -232,13 +236,13 @@ void create_new_quiz() {
     }
     fclose(fp);
 
-    printf("\nSave quiz?\n[1] Yes\n[2] No\nChoice:\t");
+    printf("\n%sSave quiz?\n%s[1] Yes\n%s[2] No\n%sChoice:%s\t\t\t\t", COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_CYAN, COLOR_RESET);
     char confirm_str[3];
     if (fgets(confirm_str, sizeof(confirm_str), stdin) && atoi(confirm_str) == 1) {
-        printf("Quiz saved successfully.\n");
+        printf("%sQuiz saved successfully.%s\n", COLOR_GREEN, COLOR_RESET);
     } else {
         remove(full_filename);
-        printf("Quiz discarded.\n");
+        printf("%sQuiz discarded.%s\n", COLOR_RED, COLOR_RESET);
     }
     sleep(1);
 }
