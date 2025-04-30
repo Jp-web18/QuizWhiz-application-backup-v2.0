@@ -84,10 +84,10 @@ int login_make_quiz() {
         system(CLEAR);
         // printf("%sMake a quiz%s\n\n%s", COLOR_YELLOW, COLOR_RESET, COLOR_BLUE);
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%s                     AUTHENTICATION\n", COLOR_YELLOW);
+        printf("%s                      AUTHENTICATION\n", COLOR_YELLOW);
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
-        printf("%sEnter PIN code:%s\t",COLOR_CYAN, COLOR_WHITE);
+        printf("%sEnter PIN:%s\t\t",COLOR_CYAN, COLOR_WHITE);
         if (fgets(entered_pin, MAX_PIN_LENGTH, stdin)) {
             printf("%s", COLOR_RESET);
             entered_pin[strcspn(entered_pin, "\n")] = '\0';
@@ -119,7 +119,12 @@ void change_pin() {
     char new_pin[MAX_PIN_LENGTH];
     char encryption_key = 'K';
 
-    printf("Enter new PIN:\t\t%s", COLOR_CYAN);
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                       CHANGE PIN\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("\n");
+    printf("%sEnter new PIN:\t\t%s", COLOR_CYAN, COLOR_RESET);
     if (fgets(new_pin, MAX_PIN_LENGTH, stdin)) {
         printf("%s", COLOR_RESET);
         new_pin[strcspn(new_pin, "\n")] = '\0';
@@ -236,7 +241,7 @@ void create_new_quiz() {
     }
     fclose(fp);
 
-    printf("\n%sSave quiz?\n%s[1] Yes\n%s[2] No\n%sChoice:%s\t\t\t\t", COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_CYAN, COLOR_RESET);
+    printf("\n%sSave quiz?\n%s[1] Yes\n%s[2] No\n%sEnter your Choice:%s\t\t", COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_CYAN, COLOR_RESET);
     char confirm_str[3];
     if (fgets(confirm_str, sizeof(confirm_str), stdin) && atoi(confirm_str) == 1) {
         printf("%sQuiz saved successfully.%s\n", COLOR_GREEN, COLOR_RESET);
@@ -256,6 +261,11 @@ void edit_existing_quiz() {
     int file_count = 0, choice;
     char encryption_key = 'Q';
 
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                 EDIT EXISTING QUIZZES\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+
     // Open quizzes directory
     if ((dir = opendir("quizzes")) == NULL) {
         perror("Failed to open quizzes directory");
@@ -263,7 +273,7 @@ void edit_existing_quiz() {
         return;
     }
 
-    printf("Available quizzes:\n");
+    printf("\n%sAvailable quizzes:%s\n", COLOR_YELLOW, COLOR_RESET);
     while ((entry = readdir(dir)) != NULL) {
         if (strstr(entry->d_name, ".quiz")) {
             snprintf(filenames[file_count], sizeof(filenames[file_count]), "quizzes/%s", entry->d_name);
@@ -274,12 +284,12 @@ void edit_existing_quiz() {
     closedir(dir);
 
     if (file_count == 0) {
-        printf("No quizzes available to edit or delete.\n");
+        printf("%sNo quizzes available to edit/delete.%s\n", COLOR_RED, COLOR_RESET);
         sleep(1);
         return;
     }
 
-    printf("Enter the number of the quiz to edit or delete (or 0 to cancel):\t");
+    printf("\n%sEnter quiz number to edit/delete (0 to cancel):%s\t", COLOR_CYAN, COLOR_RESET);
     if (scanf("%d", &choice) != 1 || choice < 0 || choice > file_count) {
         printf("%sInvalid choice.%s\n", COLOR_RED, COLOR_RESET);
         sleep(1);
@@ -288,7 +298,7 @@ void edit_existing_quiz() {
     getchar(); // Consume leftover newline
 
     if (choice == 0) {
-        printf("Operation canceled.\n");
+        printf("%sOperation canceled.%s\n", COLOR_RED, COLOR_RESET);
         sleep(1);
         return;
     }
@@ -297,13 +307,18 @@ void edit_existing_quiz() {
     char input[100], correct_answers[100];
     int duration, num_items;
 
-    printf("What would you like to do?\n");
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                 EDIT EXISTING QUIZZES\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+
+    printf("\n%sWhat would you like to do?%s\n", COLOR_YELLOW, COLOR_RESET);
     printf("[1] Edit quiz\n");
     printf("[2] Delete quiz\n");
-    printf("Enter your choice:\t");
+    printf("%sEnter your choice:%s\t\t", COLOR_CYAN, COLOR_RESET);
     if (fgets(input, sizeof(input), stdin) && input[0] == '2') {
         if (remove(selected_file) == 0) {
-            printf("Quiz deleted successfully.\n");
+            printf("%sQuiz deleted successfully.%s\n", COLOR_GREEN, COLOR_RESET);
         } else {
             perror("Failed to delete quiz");
         }
@@ -313,7 +328,7 @@ void edit_existing_quiz() {
 
     FILE *quiz_file = fopen(selected_file, "rb");
     if (!quiz_file) {
-        printf("Quiz file not found.\n");
+        printf("%sQuiz file not found.%s\n", COLOR_RED, COLOR_RESET);
         sleep(1);
         return;
     }
@@ -336,27 +351,36 @@ void edit_existing_quiz() {
     size_t offset = strlen(quiz_data) - num_items;
     memcpy(correct_answers, quiz_data + offset, num_items);
 
-    printf("Current duration: %d minutes\n", duration);
-    printf("Current number of items: %d\n", num_items);
-    printf("Current correct answers:\n");
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                 EDIT EXISTING QUIZZES\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+
+    printf("\n%sCurrent duration: \t %s%d minutes%s\n", COLOR_YELLOW, COLOR_WHITE, duration, COLOR_RESET);
+    printf("%sCurrent number of items: %s%d%s\n", COLOR_YELLOW, COLOR_WHITE, num_items, COLOR_RESET);
+    printf("%sCurrent correct answers:%s\n", COLOR_YELLOW, COLOR_RESET);
     for (int i = 0; i < num_items; i++) {
-        printf("Item %d:\t%c\n", i + 1, correct_answers[i]);
+        //printf("Item %d:\t%c\n", i + 1, correct_answers[i]);
+        printf("%sItem %d:\t%s%c%s\n", COLOR_YELLOW, i + 1, COLOR_WHITE, correct_answers[i], COLOR_RESET);
+
     }
 
-    printf("Enter new time duration (minutes) or press Enter to keep current:\t");
+    printf("\n%s----------------------------------------------------------%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%sEnter new duration in minutes (Press Enter to keep current):%s\t", COLOR_CYAN, COLOR_RESET);
     if (fgets(input, sizeof(input), stdin) && input[0] != '\n') {
         duration = atoi(input);
     }
 
-    printf("Enter new number of items or press Enter to keep current:\t");
+    printf("%sEnter new number of items (Press Enter to keep current):%s\t", COLOR_CYAN, COLOR_RESET);
     if (fgets(input, sizeof(input), stdin) && input[0] != '\n') {
         num_items = atoi(input);
     }
 
     while (1) {
-        printf("Enter new correct answers for each item or press Enter to keep current:\n");
+        printf("%sEnter new correct answers (Press Enter to keep current):%s\n", COLOR_CYAN, COLOR_RESET);
         for (int i = 0; i < num_items; i++) {
-            printf("Item %d (current: %c):\t", i + 1, correct_answers[i]);
+            //printf("Item %d (current: %c):\t", i + 1, correct_answers[i]);
+            printf("%sItem %d (current: %c):%s\t", COLOR_CYAN, i + 1, correct_answers[i], COLOR_RESET);
             if (fgets(input, sizeof(input), stdin) && input[0] != '\n') {
                 input[strcspn(input, "\n")] = '\0';
                 if (strlen(input) != 1) {
@@ -368,10 +392,10 @@ void edit_existing_quiz() {
             }
         }
 
-        printf("%sAre you finished editing the quiz?%s\n", COLOR_YELLOW, COLOR_RESET);
-        printf("%s[1] %sYes%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
-        printf("%s[2] %sNo%s\n", COLOR_YELLOW, COLOR_CYAN, COLOR_RESET);
-        printf("%s[3] %sBack to Make Quiz Menu%s\n", COLOR_YELLOW, COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("\n%sAre you finished editing the quiz?%s\n", COLOR_YELLOW, COLOR_RESET);
+        printf("%s[1] Yes, save.%s\n", COLOR_GREEN, COLOR_RESET);
+        printf("%s[2] No, continue.%s\n", COLOR_RED, COLOR_RESET);
+        printf("%s[3] Cancel, back to Make Quiz Menu.%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("%sEnter your choice:%s\t", COLOR_CYAN, COLOR_RESET);
         if (fgets(input, sizeof(input), stdin)) {
             int option = atoi(input);
@@ -381,6 +405,7 @@ void edit_existing_quiz() {
                 return;
             }
         }
+        printf("\n");
     }
     correct_answers[num_items] = '\0'; // Null-terminate the string
 
@@ -406,6 +431,6 @@ void edit_existing_quiz() {
     }
     fclose(quiz_file);
 
-    printf("Quiz updated successfully.\n");
+    printf("%sQuiz updated successfully.%s\n", COLOR_GREEN, COLOR_RESET);
     sleep(1);
 }

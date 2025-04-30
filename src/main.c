@@ -76,7 +76,7 @@ int main() {
             COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
             COLOR_RED, COLOR_RESET);
         printf("%s----------------------------------------------------------%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%sEnter your choice:%s\t", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your choice:%s\t\t", COLOR_CYAN, COLOR_RESET);
         if (fgets(input_buffer, sizeof(input_buffer), stdin) != NULL) {
             choice = atoi(input_buffer);
         } else {
