@@ -42,13 +42,14 @@ int login() {
     }
 
     // printf("%student Data%s\n\n", COLOR_YELLOW, COLOR_RESET);
-    printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-    printf("%s                     Students Data\n", COLOR_YELLOW);
-    printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                     AUTHENTICATION\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     printf("\n");
 
     while (attempts < MAX_LOGIN_ATTEMPTS) {
-        printf("Enter your PIN: ");
+        //printf("%sEnter your PIN: ");
+        printf("%sEnter PIN:%s\t\t",COLOR_CYAN, COLOR_WHITE);
         if (fgets(input_pin, MAX_PIN_LENGTH, stdin) != NULL) {
             size_t len = strlen(input_pin);
             if (len > 0 && input_pin[len - 1] == '\n') {
@@ -94,7 +95,7 @@ void view_student_data() {
         fclose(pin_file);
     } else {
         stored_pin[0] = '\0';
-        printf("Warning: PIN file not found or cannot be opened.\n");
+        printf("%sWarning: PIN file not found or cannot be opened.%s\n", COLOR_RED, COLOR_RESET);
 
         // Set default PIN code as in make_quiz
         char default_pin[] = "1234";
@@ -103,9 +104,9 @@ void view_student_data() {
 
         FILE *new_file = fopen(PIN_FILE, "wb");
         if (new_file && fwrite(default_pin, 1, strlen(default_pin), new_file) == strlen(default_pin)) {
-            printf("Default PIN file created successfully.\n");
+            printf("%sDefault PIN file created successfully.%s\n", COLOR_GREEN, COLOR_RESET);
         } else {
-            printf("Failed to create default PIN file.\n");
+            printf("%sFailed to create default PIN file.%s\n", COLOR_RED, COLOR_RESET);
         }
         if (new_file) fclose(new_file);
 
@@ -121,13 +122,21 @@ void view_student_data() {
 
     while (attempts < MAX_LOGIN_ATTEMPTS) {
         // printf("%sStudent Data%s\n\n", COLOR_YELLOW, COLOR_RESET);
+        /*
         printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("%s                     Students Data\n", COLOR_YELLOW);
         printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
+        */
+
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s                     AUTHENTICATION\n", COLOR_YELLOW);
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("\n");
 
         // printf("Enter PIN to view student data: ");
-        printf("%sEnter PIN code: %s", COLOR_CYAN, COLOR_WHITE);
+        //printf("%sEnter PIN code: %s", COLOR_CYAN, COLOR_WHITE);
+        printf("%sEnter PIN:%s\t",COLOR_CYAN, COLOR_WHITE);
         if (fgets(entered_pin, MAX_PIN_LENGTH, stdin) != NULL) {
             size_t len = strlen(entered_pin);
             if (len > 0 && entered_pin[len - 1] == '\n') {
@@ -147,7 +156,7 @@ void view_student_data() {
             }
         } else {
             attempts++;
-            printf("Invalid input.\n");
+            printf("%sInvalid input.%s\n", COLOR_RED, COLOR_RESET);
             sleep(1);
             system(CLEAR);
         }
@@ -162,7 +171,7 @@ void view_student_data() {
     struct dirent *dir;
 
     if (!d) {
-        printf("No student records found.\n");
+        printf("%sNo student records found.%s\n", COLOR_RED, COLOR_RESET);
         sleep(2);
         return;
     }
@@ -206,16 +215,16 @@ void view_student_data() {
         }
     }
 
-    printf("%s-------------------------------------------------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s=================================================================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     printf("%sSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\tSTUDENT DATA\t\n", COLOR_YELLOW);
-    printf("%s-------------------------------------------------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s=================================================================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     printf("\n");
 
-    printf("%sTotal Students Who Took the Quiz:\t%s%d%s\n\n", COLOR_CYAN, COLOR_WHITE, record_count, COLOR_RESET);
+    printf("%sTotal number of students who took the quiz:\t%s%d%s\n\n", COLOR_CYAN, COLOR_WHITE, record_count, COLOR_RESET);
 
     printf("%s%-4s  %-30s  %-12s  %-18s  %-15s  %-8s%s\n",
         COLOR_YELLOW, "No.", "Student Name", "Section", "Quiz Name", "Date", "Score", COLOR_RESET);
-    printf("----  ------------------------------  ------------  ------------------  ---------------  --------\n");
+    printf("%s----  ------------------------------  ------------  ------------------  ---------------  --------%s\n", COLOR_YELLOW, COLOR_RESET);
  
     for (int i = 0; i < record_count; i++) {
         FILE *fp = fopen(records[i].filepath, "r");
@@ -245,10 +254,12 @@ void view_student_data() {
         fclose(fp);
     }
 
+    printf("%s----  ------------------------------  ------------  ------------------  ---------------  --------%s\n\n", COLOR_YELLOW, COLOR_RESET);
+
     char input_buffer[100];
 
     while (1) {
-        printf("%s\nWould you like to view detailed information for a specific student? (y/n): %s", COLOR_CYAN, COLOR_WHITE);
+        printf("%sWould you like to view detailed information for a specific student? (%sy%s/%sn%s):%s\t", COLOR_CYAN, COLOR_GREEN, COLOR_CYAN, COLOR_RED, COLOR_CYAN, COLOR_RESET);
         if (!fgets(input_buffer, sizeof(input_buffer), stdin)) {
             printf("%sInput error. Please try again.%s\n", COLOR_RED, COLOR_RESET);
             continue;
@@ -260,7 +271,7 @@ void view_student_data() {
         input_buffer[strcspn(input_buffer, "\n")] = '\0';
     
         if (strlen(input_buffer) == 1 && (input_buffer[0] == 'y' || input_buffer[0] == 'Y')) {
-            printf("%sEnter the number of the student (1 to %d): %s", COLOR_CYAN, record_count, COLOR_WHITE);
+            printf("%sEnter the number of the student (1-%d):%s\t", COLOR_CYAN, record_count, COLOR_WHITE);
     
             if (!fgets(input_buffer, sizeof(input_buffer), stdin)) {
                 printf("%sInput error. Please try again.%s\n", COLOR_RED, COLOR_RESET);
@@ -273,7 +284,7 @@ void view_student_data() {
     
             int student_number = atoi(input_buffer);
             if (student_number < 1 || student_number > record_count) {
-                printf("%sInvalid student number. Please enter a number between 1 and %d.%s\n", COLOR_RED, record_count, COLOR_RESET);
+                printf("%sInvalid student number. Please enter a number from 1-%d.%s\n", COLOR_RED, record_count, COLOR_RESET);
                 continue;
             }
     
@@ -284,7 +295,7 @@ void view_student_data() {
                 rewind(fp); // Reset file pointer to read the name
                 if (fgets(line, sizeof(line), fp)) sscanf(line, "Name    : %[^\n]", student_name); // Adjusted format string
 
-                printf("\n%sDetailed Information for Student #%d (%s):%s\n", COLOR_YELLOW, student_number, student_name, COLOR_RESET);
+                printf("\n%sStudent #%d%s\n", COLOR_YELLOW, student_number, COLOR_RESET);
                 printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
 
                 rewind(fp); // Reset file pointer to read all details
@@ -333,7 +344,6 @@ void view_student_data() {
     
     
     
-    printf("\n\n%sPress Enter to go back to the main menu%s...\n", COLOR_GREEN, COLOR_RESET);
-    printf("%s------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%sPress ENTER to retrun to the Main Menu...%s", COLOR_LIGHT_PURPLE, COLOR_RESET);
     getchar();
 }

@@ -15,7 +15,7 @@ void make_quiz_menu() {
     while (1) {
         system(CLEAR);
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%s                     MAKE A QUIZ MENU\n", COLOR_YELLOW);
+        printf("%s                     MAKE QUIZ MENU\n", COLOR_YELLOW);
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
         printf("%s[1] %sMake a Quiz%s\t\t\t%s[3] %sChange PIN%s\n\n",
@@ -87,7 +87,7 @@ int login_make_quiz() {
         printf("%s                      AUTHENTICATION\n", COLOR_YELLOW);
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
-        printf("%sEnter PIN:%s\t\t",COLOR_CYAN, COLOR_WHITE);
+        printf("%sEnter PIN:%s\t",COLOR_CYAN, COLOR_WHITE);
         if (fgets(entered_pin, MAX_PIN_LENGTH, stdin)) {
             printf("%s", COLOR_RESET);
             entered_pin[strcspn(entered_pin, "\n")] = '\0';
@@ -241,7 +241,7 @@ void create_new_quiz() {
     }
     fclose(fp);
 
-    printf("\n%sSave quiz?\n%s[1] Yes\n%s[2] No\n%sEnter your Choice:%s\t\t", COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_CYAN, COLOR_RESET);
+    printf("\n%sSave quiz?\n%s[1] Yes\n%s[2] No\n%sEnter your choice:%s\t\t", COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_CYAN, COLOR_RESET);
     char confirm_str[3];
     if (fgets(confirm_str, sizeof(confirm_str), stdin) && atoi(confirm_str) == 1) {
         printf("%sQuiz saved successfully.%s\n", COLOR_GREEN, COLOR_RESET);
@@ -366,18 +366,18 @@ void edit_existing_quiz() {
     }
 
     printf("\n%s----------------------------------------------------------%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-    printf("%sEnter new duration in minutes (Press Enter to keep current):%s\t", COLOR_CYAN, COLOR_RESET);
+    printf("%sEnter new duration in minutes (Press ENTER to keep current):%s\t", COLOR_CYAN, COLOR_RESET);
     if (fgets(input, sizeof(input), stdin) && input[0] != '\n') {
         duration = atoi(input);
     }
 
-    printf("%sEnter new number of items (Press Enter to keep current):%s\t", COLOR_CYAN, COLOR_RESET);
+    printf("%sEnter new number of items (Press ENTER to keep current):%s\t", COLOR_CYAN, COLOR_RESET);
     if (fgets(input, sizeof(input), stdin) && input[0] != '\n') {
         num_items = atoi(input);
     }
 
     while (1) {
-        printf("%sEnter new correct answers (Press Enter to keep current):%s\n", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter new correct answers (Press ENTER to keep current):%s\n", COLOR_CYAN, COLOR_RESET);
         for (int i = 0; i < num_items; i++) {
             //printf("Item %d (current: %c):\t", i + 1, correct_answers[i]);
             printf("%sItem %d (current: %c):%s\t", COLOR_CYAN, i + 1, correct_answers[i], COLOR_RESET);

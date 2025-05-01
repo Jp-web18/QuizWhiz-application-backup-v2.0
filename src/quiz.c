@@ -16,9 +16,10 @@ retry_input:
 
         // printf("%sAvailable Quizzes:%s\n\n", COLOR_YELLOW, COLOR_RESET);
         
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%s                          QUIZ\n", COLOR_YELLOW);
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        system(CLEAR);
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+        printf("%s                      TAKE QUIZ MENU\n", COLOR_YELLOW);
+        printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
 
         while ((dir = readdir(d)) != NULL) {
@@ -26,7 +27,7 @@ retry_input:
             quiz_count++;
             }
         }
-        printf("%sTotal of available quizzes:%s\t%d\n\n", COLOR_GREEN, COLOR_RESET, quiz_count);
+        printf("%sTotal of available quizzes:%s\t%d\n", COLOR_CYAN, COLOR_RESET, quiz_count);
         closedir(d);
     }
 
@@ -44,14 +45,14 @@ retry_input:
     int choice;
     // printf("\n%s[1]%s %sTake a quiz%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
     // printf("%s[2]%s %sBack to main menu%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_LIGHT_PURPLE, COLOR_RESET);
-    printf("%s[1] %sTake a quiz%s\t\t\t%s[2] Back to main menu%s\n\n",
+    printf("\n%s[1] %sTake a quiz%s\t\t\t%s[2] Back to main menu%s\n\n",
         COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
         COLOR_LIGHT_PURPLE, COLOR_RESET);
-    printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s----------------------------------------------------------%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     printf("%sEnter your choice:%s ", COLOR_CYAN, COLOR_RESET);
 
     if (fgets(input, sizeof(input), stdin) == NULL || input[0] == '\n') {
-        printf("%sInvalid input. Please press 1 or 2.%s\n", COLOR_RED, COLOR_RESET);
+        printf("%sInvalid input. Please enter 1 or 2.%s\n", COLOR_RED, COLOR_RESET);
 #ifdef _WIN32
         Sleep(1000);
 #else
@@ -90,8 +91,11 @@ void take_quiz() {
         sleep(2);
         return;
     }
-
-    printf("\n%sAvailable Quizzes:%s\n\n", COLOR_YELLOW, COLOR_RESET);
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                      TAKE A QUIZ\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("\n%sAvailable Quizzes:%s\n", COLOR_YELLOW, COLOR_RESET);
     while ((dir = readdir(d)) != NULL) {
         if (strstr(dir->d_name, ".quiz")) {
             printf("[%d] %s\n", ++quiz_count, dir->d_name);
@@ -99,6 +103,7 @@ void take_quiz() {
         }
     }
     closedir(d);
+    printf("\n%s----------------------------------------------------------%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
 
     if (quiz_count == 0) {
         printf("%sNo quizzes available.%s\n", COLOR_RED, COLOR_RESET);
@@ -109,7 +114,7 @@ void take_quiz() {
     char input[16];
     int selection = -1;
     while (1) {
-        printf("\n%sEnter the number of the quiz you want to take:%s ", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter the number of the quiz you want to take: %s", COLOR_CYAN, COLOR_RESET);
         if (!fgets(input, sizeof(input), stdin) || input[0] == '\n') {
             printf("%sInvalid input.%s\n", COLOR_RED, COLOR_RESET);
             continue;
@@ -167,6 +172,10 @@ void take_quiz() {
     strncpy(correct_answers, quiz_data_ptr, items);
     correct_answers[items] = '\0'; // Ensure null-termination
 
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                      TAKE A QUIZ\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
     printf("%sTime Duration:%s %d minutes\n", COLOR_YELLOW, COLOR_RESET, duration);
 
     char student_name[100], section[20], pc_number[10], submission_date[11];
@@ -184,14 +193,14 @@ void take_quiz() {
         fgets(pc_number, sizeof(pc_number), stdin);
         pc_number[strcspn(pc_number, "\n")] = '\0';
 
-        printf("\n%sPlease confirm your information:%s\n", COLOR_YELLOW, COLOR_RESET);
-        printf("%-23s : %s%s\n", "Name", COLOR_CYAN, student_name);
-        printf("%-23s : %s%s\n", "Section", COLOR_CYAN, section);
-        printf("%-23s : %s%s\n", "PC Number", COLOR_CYAN, pc_number);
+        printf("%s\nPlease confirm your information:%s\n", COLOR_YELLOW, COLOR_RESET);
+        printf("%s%-23s : %s%s\n", COLOR_CYAN, "Name", COLOR_RESET, student_name);
+        printf("%s%-23s : %s%s\n", COLOR_CYAN, "Section", COLOR_RESET, section);
+        printf("%s%-23s : %s%s\n", COLOR_CYAN, "PC Number", COLOR_RESET, pc_number);        
         printf("\n%sIs this information correct?%s\n", COLOR_YELLOW, COLOR_RESET);
         printf("%s[1] Yes%s\n", COLOR_GREEN, COLOR_RESET);
         printf("%s[2] No%s\n", COLOR_RED, COLOR_RESET);
-        printf("%sEnter your choice:       %s", COLOR_CYAN, COLOR_RESET);
+        printf("%sEnter your choice       : %s", COLOR_CYAN, COLOR_RESET);
 
         if (fgets(input, sizeof(input), stdin)) {
             int choice = atoi(input);
@@ -213,14 +222,19 @@ void take_quiz() {
     snprintf(record_file, sizeof(record_file), "records/%s_%s.rec", selected_quiz, student_name);
 
     if (file_exists(record_file)) {
-        printf("%sYou have already taken this quiz with the same name. Not allowed to take twice.%s\n", COLOR_RED, COLOR_RESET);
+        printf("%sYou have already taken this quiz. You cannot take it twice.%s\n", COLOR_RED, COLOR_RESET);
         sleep(2);
         return;
     }
 
-    printf("%sThe quiz will start now. You have %d minutes to complete it.%s\n", COLOR_YELLOW, duration, COLOR_RESET);
+    printf("%s\nThe quiz will start now. You have %d minutes to complete it.%s\n", COLOR_YELLOW, duration, COLOR_RESET);
     printf("%sPress ENTER to begin...%s", COLOR_CYAN, COLOR_RESET);
     fgets(input, sizeof(input), stdin);
+    
+    system(CLEAR);
+    printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%s                      TAKE A QUIZ\n", COLOR_YELLOW);
+    printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
 
     time_t start_time = time(NULL);
     time_t end_time = start_time + (duration * 60);
@@ -233,7 +247,7 @@ void take_quiz() {
             break;
         }
 
-        printf("Question #%d answer:\t", i + 1);
+        printf("%sQuestion #%d answer:%s\t", COLOR_CYAN, i + 1, COLOR_RESET);
         char ans_input[4];
         if (fgets(ans_input, sizeof(ans_input), stdin)) {
             ans_input[strcspn(ans_input, "\n")] = '\0'; // Remove newline
@@ -255,9 +269,9 @@ void take_quiz() {
     } else {
         int confirmed = 0;
         while (1) {
-            printf("Are you finished answering the quiz?\n");
-            printf("%s[1] Yes%s\n", COLOR_YELLOW, COLOR_RESET);
-            printf("%s[2] Review Answers%s\n", COLOR_YELLOW, COLOR_RESET);
+            printf("\n%sAre you finished answering the quiz?%s\n", COLOR_YELLOW, COLOR_RESET);
+            printf("%s[1] Yes%s\n", COLOR_GREEN, COLOR_RESET);
+            printf("%s[2] Review Answers%s\n", COLOR_RED, COLOR_RESET);
             printf("%sEnter your choice:%s\t", COLOR_CYAN, COLOR_RESET);
 
             if (!fgets(input, sizeof(input), stdin) || input[0] == '\n') {
@@ -275,7 +289,7 @@ void take_quiz() {
             if (confirmed == 2) {
                 printf("\n%sReview your answers:%s\n", COLOR_YELLOW, COLOR_RESET);
                 while (1) {
-                    printf("Enter the question number you want to change (or 0 to finish): ");
+                    printf("%sEnter number to change (0 to finish): %s", COLOR_CYAN, COLOR_RESET);
                     if (!fgets(input, sizeof(input), stdin) || input[0] == '\n') {
                         printf("%sInvalid input.%s\n", COLOR_RED, COLOR_RESET);
                         continue;
@@ -289,8 +303,8 @@ void take_quiz() {
 
                     if (question_number == 0) break;
 
-                    printf("Current answer for Question #%d: %c\n", question_number, user_answers[question_number - 1]);
-                    printf("Enter new answer: ");
+                    printf("\n%sCurrent answer for Question #%d: %c%s\n", COLOR_YELLOW, question_number, user_answers[question_number - 1], COLOR_RESET);
+                    printf("%sEnter new answer:\t%s", COLOR_CYAN, COLOR_RESET);
                     char ans_input[4];
                     if (fgets(ans_input, sizeof(ans_input), stdin)) {
                         ans_input[strcspn(ans_input, "\n")] = '\0'; // Remove newline
@@ -299,6 +313,7 @@ void take_quiz() {
                         } else {
                             printf("%sInvalid input. Answer must be a single character.%s\n", COLOR_RED, COLOR_RESET);
                         }
+                    printf("\n");
                     }
                 }
                 continue; // Return to the confirmation prompt
@@ -342,7 +357,9 @@ void take_quiz() {
     chmod(record_file, 0444); // Set file to read-only on Unix-based systems
 #endif
 
-    printf("%sQuiz submitted. Score:%s %d/%d (%.2f%%) on %s\n", COLOR_GREEN, COLOR_RESET, score, items, percentage, submission_date);
-    printf("\n%sPress ENTER to return to the main menu...%s", COLOR_CYAN, COLOR_RESET);
+    printf("%sQuiz submitted.\n%s", COLOR_GREEN, COLOR_RESET);
+    printf("\n%sScore: %d/%d (%.2f%%)%s\n", COLOR_YELLOW, score, items, percentage, COLOR_RESET);
+    printf("%sDate: %s%s\n", COLOR_YELLOW, submission_date, COLOR_RESET);
+    printf("%sPress ENTER to retrun to the Main Menu...%s", COLOR_LIGHT_PURPLE, COLOR_RESET);
     fgets(input, sizeof(input), stdin); // Wait for ENTER
 }

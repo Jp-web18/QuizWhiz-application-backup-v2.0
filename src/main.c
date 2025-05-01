@@ -69,10 +69,10 @@ int main() {
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("%s              WELCOME TO THE QUIZWHIZ SYSTEM%s\n", COLOR_YELLOW, COLOR_RESET);
         printf("%s==========================================================%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%s[1] %sMake a Quiz%s\t\t\t%s[3] %sView and Take Quizzes%s\n\n",
+        printf("%s[1] %sMake Quiz%s\t\t\t%s[3] %sTake Quiz%s\n\n",
             COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
             COLOR_YELLOW, COLOR_WHITE, COLOR_RESET);
-        printf("%s[2] %sView Student's Data%s\t\t%s[4] Exit the system%s\n\n",
+        printf("%s[2] %sView Student's Data%s\t\t%s[4] Exit%s\n\n",
             COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
             COLOR_RED, COLOR_RESET);
         printf("%s----------------------------------------------------------%s\n\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
@@ -370,7 +370,7 @@ void animate_welcome() {
 */
                 break;
             case 4:
-                printf("\nExiting the system...\n");
+                printf("\n%sExiting the system...%s\n", COLOR_RED, COLOR_RESET);
                 running = 0;
                 // animate_names_on_exit(choice); 
                 break;
@@ -381,7 +381,7 @@ void animate_welcome() {
     }
 
 
-    printf("Press Enter to exit...\n");
+    printf("%sPress Enter to exit...%s\n", COLOR_RED, COLOR_RESET);
     getchar();
 
     return 0;
