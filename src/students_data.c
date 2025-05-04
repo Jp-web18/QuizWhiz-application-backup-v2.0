@@ -306,28 +306,28 @@ void view_student_data() {
                         if (strcmp(key, "Score") == 0) {
                             char score[20], date[20];
                             if (sscanf(value, "%19s %19s", score, date) == 2) {
-                                printf("%s%-20s: %s%s\n", COLOR_CYAN, "Score", COLOR_WHITE, score);
-                                printf("%s%-20s: %s%s\n", COLOR_CYAN, "Date", COLOR_WHITE, date);
+                                printf("%-20s: %s\n", "Score", score);
+                                printf("%-20s: %s\n", "Date", date);
                             } else {
-                                printf("%s%-20s: %s%s\n", COLOR_CYAN, key, COLOR_WHITE, value);
+                                printf("%-20s: %s\n", key, value);
                             }
                         } else if (strcmp(key, "Answers") == 0) {
-                            printf("%s%-20s:%s\n", COLOR_CYAN, "Answers", COLOR_RESET);
+                            printf("%-20s:\n", "Answers");
                             for (int i = 0; value[i] != '\0'; i++) {
-                                printf("%d. %c (Correct: %c)\n", i + 1, value[i], value[i]); // Remove extra spaces
+                                printf("%d. %c (Correct: %c)\n", i + 1, value[i], value[i]);
                             }
                         } else if (strcmp(key, "Correct") == 0) {
-                            printf("%s%-20s:%s\n", COLOR_CYAN, "Correct", COLOR_RESET);
+                            printf("%-20s:\n", "Correct");
                             for (int i = 0; value[i] != '\0'; i++) {
-                                printf("%d. %c (Correct: %c)\n", i + 1, value[i], value[i]); // Remove extra spaces
+                                printf("%d. %c (Correct: %c)\n", i + 1, value[i], value[i]);
                             }
                         } else {
-                            printf("%s%-20s: %s%s\n", COLOR_CYAN, key, COLOR_WHITE, value);
+                            printf("%-20s: %s\n", key, value);
                         }
                     } else {
                         // Print raw lines like "1. a (Correct: a)"
                         printf("%s", line);
-                    }
+                    }                    
                 }
 
                 fclose(fp);
