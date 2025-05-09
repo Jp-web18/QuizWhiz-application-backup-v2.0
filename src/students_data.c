@@ -344,6 +344,6 @@ void view_student_data() {
     
     
     
-    printf("%sPress ENTER to retrun to the Main Menu...%s", COLOR_LIGHT_PURPLE, COLOR_RESET);
+    printf("%sPress ENTER to return to the Main Menu...%s", COLOR_LIGHT_PURPLE, COLOR_RESET);
     getchar();
 }
