@@ -1,13 +1,9 @@
 #include "config.h"
 
-
 void clear_stdin_buffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
-
-
-
 
 int login() {
     char input_pin[MAX_PIN_LENGTH];
@@ -73,7 +69,6 @@ int login() {
     return 0;
 }
 
-
 void view_student_data() {
     system(CLEAR);
 
@@ -121,21 +116,12 @@ void view_student_data() {
     }
 
     while (attempts < MAX_LOGIN_ATTEMPTS) {
-        // printf("%sStudent Data%s\n\n", COLOR_YELLOW, COLOR_RESET);
-        /*
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("%s                     Students Data\n", COLOR_YELLOW);
-        printf("%s----------------------------------------------------------%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
-        printf("\n");
-        */
 
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("%s                     AUTHENTICATION\n", COLOR_YELLOW);
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
         printf("\n");
 
-        // printf("Enter PIN to view student data: ");
-        //printf("%sEnter PIN code: %s", COLOR_CYAN, COLOR_WHITE);
         printf("%sEnter PIN:%s\t",COLOR_CYAN, COLOR_WHITE);
         if (fgets(entered_pin, MAX_PIN_LENGTH, stdin) != NULL) {
             size_t len = strlen(entered_pin);
@@ -341,8 +327,6 @@ void view_student_data() {
             printf("%sInvalid choice. Please enter 'y' or 'n'.%s\n", COLOR_RED, COLOR_RESET);
         }
     }
-    
-    
     
     printf("%sPress ENTER to return to the Main Menu...%s", COLOR_LIGHT_PURPLE, COLOR_RESET);
     getchar();

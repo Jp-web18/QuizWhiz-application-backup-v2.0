@@ -1,7 +1,5 @@
 #include "config.h"
 
-
-
 void view_take_quizzes() {
     DIR *d;
     struct dirent *dir;
@@ -13,8 +11,6 @@ retry_input:
 
     d = opendir("quizzes");
     if (d) {
-
-        // printf("%sAvailable Quizzes:%s\n\n", COLOR_YELLOW, COLOR_RESET);
         
         system(CLEAR);
         printf("%s==========================================================%s\n", COLOR_LIGHT_PURPLE, COLOR_RESET);
@@ -43,8 +39,7 @@ retry_input:
 
     char input[10];
     int choice;
-    // printf("\n%s[1]%s %sTake a quiz%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_CYAN, COLOR_RESET);
-    // printf("%s[2]%s %sBack to main menu%s\n", COLOR_YELLOW, COLOR_RESET, COLOR_LIGHT_PURPLE, COLOR_RESET);
+
     printf("\n%s[1] %sTake a quiz%s\t\t\t%s[2] Back to main menu%s\n\n",
         COLOR_YELLOW, COLOR_WHITE, COLOR_RESET,
         COLOR_LIGHT_PURPLE, COLOR_RESET);

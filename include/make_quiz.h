@@ -8,7 +8,4 @@ void create_new_quiz();
 void edit_existing_quiz();
 void encrypt_decrypt_xor(char *data, size_t length, char key);
 
-
-
-
 #endif

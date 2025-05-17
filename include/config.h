@@ -7,7 +7,6 @@
     #define CLEAR "clear"
 #endif
 
-
 /* STANDARD HEADEARS */
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,7 +17,6 @@
 #include <sys/stat.h>
 #include <windows.h>
 #include <ctype.h> // Include for tolower function
-
 
 /* DEVELOPER HEADEARS */
 #include "make_quiz.h"
@@ -33,7 +31,6 @@
 
 /* MAKE_QUIZ.C & STUDENT_DATA.C PIN EBCRYPTION */
 void xor_encrypt_decrypt(char *data, size_t length, char key);  // ✅ Updated declaration
-
 
 // ANSI escape codes for common text colors
 #define COLOR_RESET   "\033[0m"     // Reset all attributes
@@ -82,6 +79,5 @@ void xor_encrypt_decrypt(char *data, size_t length, char key);  // ✅ Updated d
 
 // Example of bold text with a background color
 #define BOLD_BLUE_ON_CYAN BOLD_BLUE BG_CYAN
-
 
 #endif

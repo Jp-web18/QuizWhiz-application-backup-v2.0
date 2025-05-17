@@ -113,7 +113,6 @@ int login_make_quiz() {
     return 0;
 }
 
-
 /* CHANGE PIN */
 void change_pin() {
     char new_pin[MAX_PIN_LENGTH];
@@ -147,7 +146,6 @@ void change_pin() {
     }
     sleep(1);
 }
-
 
 /* CREATE NEW QUIZ */
 void create_new_quiz() {
@@ -251,7 +249,6 @@ void create_new_quiz() {
     }
     sleep(1);
 }
-
 
 /* EDIT EXISTING QUIZ */
 void edit_existing_quiz() {
